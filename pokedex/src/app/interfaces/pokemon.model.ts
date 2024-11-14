@@ -1,4 +1,6 @@
 export interface Ipokemon {
-    name: string;
-    url: string;
+    results: Array<{
+        name: string;
+        url: string;
+    }>;
 }
