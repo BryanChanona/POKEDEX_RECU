@@ -26,7 +26,7 @@ export class PokemonListComponent implements OnInit {
     this.serviceP.getPokemonList().subscribe({
       next: (response) => {
         console.log(response);
-        this.pokemons = response.results.map((pokemon: any) => ({
+        this.pokemons = response.results.map((pokemon) => ({
           name: pokemon.name,
           url: pokemon.url,
         }));
