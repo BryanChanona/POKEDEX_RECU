@@ -45,4 +45,7 @@ export class PokemonListComponent implements OnInit {
   navigateToDetails(pokemonName: string): void {
     this.router.navigate(['/pokemon', pokemonName]); // Navega a la ruta de detalles del Pokémon
   }
+  goToFavorites():void{
+    this.router.navigate(['/favorites'])
+  }
 }
