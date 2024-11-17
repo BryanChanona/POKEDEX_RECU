@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { Ipokemon } from '../../interfaces/pokemon.model';
+import { IpokemonSummary } from '../../interfaces/pokemon.model'; // Usar el modelo de resumen
 import { PokemonService } from '../../services/poke.service';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [MatTableModule,MatIconModule],
+  imports: [MatTableModule, MatIconModule],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss']
 })
 export class PokemonListComponent implements OnInit {
-  pokemons: { name: string; url: string }[] = [];
+  pokemons: IpokemonSummary[] = []; // Usa el modelo de resumen aquí
   displayedColumns: string[] = ['name', 'url', 'favorite'];
   dataSource = this.pokemons; // Declara dataSource y asígnale el arreglo pokemons
 
-  constructor(private serviceP: PokemonService) { }
+  constructor(private serviceP: PokemonService, private router: Router) { }
 
   ngOnInit(): void {
     this.loadPokemons();
@@ -25,21 +26,23 @@ export class PokemonListComponent implements OnInit {
   loadPokemons(): void {
     this.serviceP.getPokemonList().subscribe({
       next: (response) => {
-        console.log(response);
-        this.pokemons = response.results.map((pokemon) => ({
-          name: pokemon.name,
-          url: pokemon.url,
-        }));
-        this.dataSource = this.pokemons; // Asigna la lista actualizada de pokemons a dataSource
+        // Mapea los datos de la respuesta al modelo adecuado
+        this.pokemons = response.results;
+        this.dataSource = this.pokemons; // Asigna la lista de Pokémon a dataSource
       },
       error: (err) => console.error('Error al cargar Pokémon', err)
     });
   }
 
-  isFavorite(pokemon: Ipokemon): boolean {
+  isFavorite(pokemon: IpokemonSummary): boolean {
     return this.serviceP.isFavorite(pokemon); // Usar el método del servicio
   }
-  toggleFavorite(pokemon: Ipokemon): void {
+
+  toggleFavorite(pokemon: IpokemonSummary): void {
     this.serviceP.toggleFavorite(pokemon); // Usar el método del servicio
+  }
+
+  navigateToDetails(pokemonName: string): void {
+    this.router.navigate(['/pokemon', pokemonName]); // Navega a la ruta de detalles del Pokémon
   }
 }

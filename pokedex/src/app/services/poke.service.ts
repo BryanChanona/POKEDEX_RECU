@@ -1,42 +1,48 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
-import { Ipokemon } from "../interfaces/pokemon.model";
+import { IpokemonSummary } from "../interfaces/pokemon.model";
+import { Ipokemon } from "../interfaces/pokemon.model"; // Para los detalles del Pokémon
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 
 export class PokemonService {
-    private apiUrl = 'https://pokeapi.co/api/v2/pokemon'
-    private favorites: Ipokemon[] = []; // Arreglo para almacenar los favoritos
+  private apiUrl = 'https://pokeapi.co/api/v2/pokemon';
+  private favorites: IpokemonSummary[] = []; // Arreglo para almacenar los favoritos
 
-    constructor (private http: HttpClient){}
+  constructor(private http: HttpClient) {}
 
-getPokemonList(): Observable<Ipokemon>{
-        return this.http.get<Ipokemon>(`${this.apiUrl}/?offset=0&limit=20`);  
-}
-
-getPokemonDetails(name: string): Observable<Ipokemon>{
-  return this.http.get<Ipokemon>(`${this.apiUrl}/${name}`)
-}
-
-isFavorite(pokemon: Ipokemon): boolean {
-    return this.favorites.includes(pokemon);
+  // Obtiene la lista de Pokémon (solo nombre y url)
+  getPokemonList(): Observable<{ results: IpokemonSummary[] }> {
+    return this.http.get<{ results: IpokemonSummary[] }>(`${this.apiUrl}/?offset=0&limit=20`);
   }
 
-  toggleFavorite(pokemon: Ipokemon): void {
-    const index = this.favorites.indexOf(pokemon);
+  // Obtiene los detalles completos de un Pokémon
+  getPokemonDetails(name: string): Observable<Ipokemon> {
+    return this.http.get<Ipokemon>(`${this.apiUrl}/${name}`);
+  }
+
+  // Verifica si un Pokémon es favorito (usando el modelo de resumen)
+  isFavorite(pokemon: IpokemonSummary): boolean {
+    return this.favorites.some(fav => fav.name === pokemon.name); // Verifica por nombre
+  }
+
+  // Alterna el estado de favorito de un Pokémon (usando el modelo de resumen)
+  toggleFavorite(pokemon: IpokemonSummary): void {
+    const index = this.favorites.findIndex(fav => fav.name === pokemon.name); // Compara por nombre
     if (index > -1) {
-      // Si ya es favorito, quitarlo
+      // Si ya es favorito, lo quita
       this.favorites.splice(index, 1);
     } else {
-      // Si no es favorito, agregarlo
+      // Si no es favorito, lo agrega
       this.favorites.push(pokemon);
     }
   }
 
-  getFavorites(): Ipokemon[] {
+  // Obtiene la lista de favoritos
+  getFavorites(): IpokemonSummary[] {
     return this.favorites;
   }
 }

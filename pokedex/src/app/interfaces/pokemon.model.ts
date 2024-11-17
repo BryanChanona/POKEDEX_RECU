@@ -1,6 +1,35 @@
 export interface Ipokemon {
-    results: Array<{
+    name: string;
+    height: number;
+    weight: number;
+    base_experience: number;
+    sprites: {
+      front_default: string;
+      front_shiny?: string;
+      back_default?: string;
+      back_shiny?: string;
+      other: {
+        official_artwork: {
+          front_default: string;
+        };
+      };
+    };
+    abilities: Array<{
+      ability: {
         name: string;
-        url: string;
+      };
     }>;
-}
+    game_indices: Array<{
+      version: {
+        name: string;
+      };
+    }>;
+  }
+
+  // pokemon-summary.model.ts
+export interface IpokemonSummary {
+    name: string;
+    url: string;
+  }
+  
+  
