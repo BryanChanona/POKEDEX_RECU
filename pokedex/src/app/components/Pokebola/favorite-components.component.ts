@@ -3,12 +3,14 @@ import { PokemonService } from '../../services/poke.service';
 import { IpokemonSummary } from '../../interfaces/pokemon.model';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { HeaderComponent } from "../../shared/header/header.component";
+import { PokemonNameTransformPipe } from '../../pipes/pokemon-name-transform.pipe';
 
 @Component({
   selector: 'app-favorite-pokemons',
   templateUrl: './favorite-components.component.html',
   standalone:true,
-  imports:[MatTableModule],
+  imports: [MatTableModule, HeaderComponent, PokemonNameTransformPipe],
   styleUrls: ['./favorite-components.component.scss']
 })
 export class FavoritePokemonsComponent implements OnInit {

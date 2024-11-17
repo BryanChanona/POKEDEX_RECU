@@ -4,11 +4,12 @@ import { IpokemonSummary } from '../../interfaces/pokemon.model'; // Usar el mod
 import { PokemonService } from '../../services/poke.service';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { PokemonNameTransformPipe } from '../../pipes/pokemon-name-transform.pipe';
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [MatTableModule, MatIconModule],
+  imports: [MatTableModule, MatIconModule,PokemonNameTransformPipe],
   templateUrl: './pokemon-list.component.html',
   styleUrls: ['./pokemon-list.component.scss']
 })
