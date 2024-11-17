@@ -17,6 +17,10 @@ getPokemonList(): Observable<Ipokemon>{
         return this.http.get<Ipokemon>(`${this.apiUrl}/?offset=0&limit=20`);  
 }
 
+getPokemonDetails(name: string): Observable<Ipokemon>{
+  return this.http.get<Ipokemon>(`${this.apiUrl}/${name}`)
+}
+
 isFavorite(pokemon: Ipokemon): boolean {
     return this.favorites.includes(pokemon);
   }
