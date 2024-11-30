@@ -33,15 +33,17 @@ export class PokemonService {
   toggleFavorite(pokemon: IpokemonSummary): void {
     const index = this.favorites.findIndex(fav => fav.name === pokemon.name); // Compara por nombre
     if (index > -1) {
-      // Si ya es favorito, lo quita
       this.favorites.splice(index, 1);
     } else {
-      // Si no es favorito, lo agrega
-      this.favorites.push(pokemon);
+      
+      if (!(this.favorites.length === 5)){
+        this.favorites.push(pokemon);
+      }else{
+        console.log("Ya son 5");
+      }
+      
     }
   }
-
-  // Obtiene la lista de favoritos
   getFavorites(): IpokemonSummary[] {
     return this.favorites;
   }

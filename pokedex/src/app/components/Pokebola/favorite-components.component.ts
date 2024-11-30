@@ -19,7 +19,7 @@ export class FavoritePokemonsComponent implements OnInit {
   constructor(private service: PokemonService, private router: Router) {}
 
   ngOnInit(): void {
-    this.favorites = this.service.getFavorites(); // Suponiendo que implementas esta lógica
+    this.favorites = this.service.getFavorites(); 
   }
 
   navigateToDetails(pokemonName: string): void {
